@@ -17,6 +17,12 @@
 1. Place your and your friends dll's into the **Launcher.exe** directory
 2. Run **Launcher.exe** and hit launch button
 
+# Screenshots
+### Linux
+<p align="center">  
+  <img src="https://github.com/lyftzeigen/SnakeBattle/raw/master/Screenshots/Linux/Battlefield.png"/>
+</p>
+
 # Code explanation
 
 ### ISmartSnake interface
