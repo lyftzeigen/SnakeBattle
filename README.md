@@ -2,7 +2,7 @@
 
 ### Installation and run
 1. Clone repository
-2. Open with Visual Studio
+2. Open with Visual Studio 2015 (C# 6.0)
 3. Build and Run
 
 ### How to create and debug your own AI
