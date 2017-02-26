@@ -6,8 +6,8 @@ using PluginInterface;
 
 namespace SnakeBattle
 {
-	public static class PluginController
-	{
+    public static class PluginController
+    {
         public static List<ISmartSnake> LoadPlugins()
         {
             var brains = new List<ISmartSnake>();
