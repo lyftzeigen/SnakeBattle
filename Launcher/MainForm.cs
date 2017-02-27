@@ -36,7 +36,7 @@ namespace Launcher
             Settings.FieldWidth = int.Parse(txtFieldWidth.Text);
             Settings.FieldHeight = int.Parse(txtFieldHeight.Text);
             Settings.BlokSize = int.Parse(txtBlockSize.Text);
-            Settings.TerrainDomainNumber = int.Parse(txtTerrainCount.Text);
+            Settings.TerrainDomainNumber = int.Parse(txtTerrainDomainNumber.Text);
             Settings.TerrainDomainPower = int.Parse(txtTerrainPower.Text);
             Settings.FoodCount = int.Parse(txtFoodCount.Text);
             Settings.RenderDelay = int.Parse(txtRenderDelay.Text);
@@ -45,7 +45,7 @@ namespace Launcher
             txtFieldWidth.Text = Settings.FieldWidth.ToString();
             txtFieldHeight.Text = Settings.FieldHeight.ToString();
             txtBlockSize.Text = Settings.BlokSize.ToString();
-            txtTerrainCount.Text = Settings.TerrainDomainNumber.ToString();
+            txtTerrainDomainNumber.Text = Settings.TerrainDomainNumber.ToString();
             txtTerrainPower.Text = Settings.TerrainDomainPower.ToString();
             txtFoodCount.Text = Settings.FoodCount.ToString();
             txtRenderDelay.Text = Settings.RenderDelay.ToString();
@@ -56,12 +56,9 @@ namespace Launcher
                 (sender as TextBox).SelectionStart = (sender as TextBox).Text.Length;
             }
 
-            if (txtFieldWidth.Text != string.Empty && txtFieldHeight.Text != string.Empty && txtBlockSize.Text != string.Empty)
-            {
-                var width = int.Parse(txtFieldWidth.Text) * (int.Parse(txtBlockSize.Text) + 2);
-                var height = int.Parse(txtFieldHeight.Text) * (int.Parse(txtBlockSize.Text) + 2);
-                lblResolution.Text = $"Resolution: {width}x{height}";
-            }
+            var width = int.Parse(txtFieldWidth.Text) * (int.Parse(txtBlockSize.Text) + 2);
+            var height = int.Parse(txtFieldHeight.Text) * (int.Parse(txtBlockSize.Text) + 2);
+            lblResolution.Text = $"Resolution: {width}x{height}";
         }
 
         private void btnLaunch_Click(object sender, EventArgs e)

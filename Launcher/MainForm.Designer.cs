@@ -44,7 +44,7 @@ namespace Launcher
             this.txtTerrainPower = new System.Windows.Forms.TextBox();
             this.lblTerrainPower = new System.Windows.Forms.Label();
             this.lblTerrainCount = new System.Windows.Forms.Label();
-            this.txtTerrainCount = new System.Windows.Forms.TextBox();
+            this.txtTerrainDomainNumber = new System.Windows.Forms.TextBox();
             this.grBoxFood = new System.Windows.Forms.GroupBox();
             this.lblFoodCount = new System.Windows.Forms.Label();
             this.txtFoodCount = new System.Windows.Forms.TextBox();
@@ -166,7 +166,7 @@ namespace Launcher
             this.grBoxTerrain.Controls.Add(this.txtTerrainPower);
             this.grBoxTerrain.Controls.Add(this.lblTerrainPower);
             this.grBoxTerrain.Controls.Add(this.lblTerrainCount);
-            this.grBoxTerrain.Controls.Add(this.txtTerrainCount);
+            this.grBoxTerrain.Controls.Add(this.txtTerrainDomainNumber);
             this.grBoxTerrain.Location = new System.Drawing.Point(12, 105);
             this.grBoxTerrain.Name = "grBoxTerrain";
             this.grBoxTerrain.Size = new System.Drawing.Size(340, 88);
@@ -203,16 +203,16 @@ namespace Launcher
             this.lblTerrainCount.TabIndex = 2;
             this.lblTerrainCount.Text = "Domain number:";
             // 
-            // txtTerrainCount
+            // txtTerrainDomainNumber
             // 
-            this.txtTerrainCount.Location = new System.Drawing.Point(120, 23);
-            this.txtTerrainCount.Margin = new System.Windows.Forms.Padding(5);
-            this.txtTerrainCount.Name = "txtTerrainCount";
-            this.txtTerrainCount.Size = new System.Drawing.Size(38, 22);
-            this.txtTerrainCount.TabIndex = 0;
-            this.txtTerrainCount.Text = "30";
-            this.txtTerrainCount.TextChanged += new System.EventHandler(this.txtResolutionFields_TextChanged);
-            this.txtTerrainCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFields_KeyPress);
+            this.txtTerrainDomainNumber.Location = new System.Drawing.Point(120, 23);
+            this.txtTerrainDomainNumber.Margin = new System.Windows.Forms.Padding(5);
+            this.txtTerrainDomainNumber.Name = "txtTerrainDomainNumber";
+            this.txtTerrainDomainNumber.Size = new System.Drawing.Size(38, 22);
+            this.txtTerrainDomainNumber.TabIndex = 0;
+            this.txtTerrainDomainNumber.Text = "30";
+            this.txtTerrainDomainNumber.TextChanged += new System.EventHandler(this.txtResolutionFields_TextChanged);
+            this.txtTerrainDomainNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFields_KeyPress);
             // 
             // grBoxFood
             // 
@@ -342,7 +342,7 @@ namespace Launcher
         private TextBox txtFieldWidth;
         private GroupBox grBoxTerrain;
         private Label lblTerrainCount;
-        private TextBox txtTerrainCount;
+        private TextBox txtTerrainDomainNumber;
         private TextBox txtTerrainPower;
         private Label lblTerrainPower;
         private Label lblResolution;
