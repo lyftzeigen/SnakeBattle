@@ -22,7 +22,7 @@
         public static int BlokSize
         {
             get { return blokSize; }
-            set { blokSize = value < 4 ? 5 : value; }
+            set { blokSize = value < 5 ? 5 : value; }
         }
 
         public static int TerrainDomainNumber { get; set; }

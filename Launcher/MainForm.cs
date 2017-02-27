@@ -10,7 +10,7 @@ namespace Launcher
         public MainForm()
         {
             InitializeComponent();
-            txtResolutionFields_TextChanged(this, null);
+            txtResolutionFields_TextChanged(null, null);
         }
 
         private void txtFields_KeyPress(object sender, KeyPressEventArgs e)
@@ -23,16 +23,16 @@ namespace Launcher
 
         private void txtResolutionFields_TextChanged(object sender, EventArgs e)
         {
-            if (txtFieldWidth.Text != String.Empty && txtFieldHeight.Text != String.Empty && txtBlockSize.Text != String.Empty)
+            if (sender != null && (sender as TextBox).Text.Length == 0)
             {
-                var width = int.Parse(txtFieldWidth.Text) * (int.Parse(txtBlockSize.Text) + 2);
-                var height = int.Parse(txtFieldHeight.Text) * (int.Parse(txtBlockSize.Text) + 2);
-                lblResolution.Text = $"Resolution: {width}x{height}";
+                (sender as TextBox).Text = "0";
             }
-        }
 
-        private void btnLaunch_Click(object sender, EventArgs e)
-        {
+            if (sender != null && (sender as TextBox).Text.Length > 4)
+            {
+                (sender as TextBox).Text = (sender as TextBox).Text.Substring(0, 4);
+            }
+
             Settings.FieldWidth = int.Parse(txtFieldWidth.Text);
             Settings.FieldHeight = int.Parse(txtFieldHeight.Text);
             Settings.BlokSize = int.Parse(txtBlockSize.Text);
@@ -42,6 +42,30 @@ namespace Launcher
             Settings.RenderDelay = int.Parse(txtRenderDelay.Text);
             Settings.UpdateDeleay = int.Parse(txtUpdateDalay.Text);
 
+            txtFieldWidth.Text = Settings.FieldWidth.ToString();
+            txtFieldHeight.Text = Settings.FieldHeight.ToString();
+            txtBlockSize.Text = Settings.BlokSize.ToString();
+            txtTerrainCount.Text = Settings.TerrainDomainNumber.ToString();
+            txtTerrainPower.Text = Settings.TerrainDomainPower.ToString();
+            txtFoodCount.Text = Settings.FoodCount.ToString();
+            txtRenderDelay.Text = Settings.RenderDelay.ToString();
+            txtUpdateDalay.Text = Settings.UpdateDeleay.ToString();
+
+            if (sender != null)
+            {
+                (sender as TextBox).SelectionStart = (sender as TextBox).Text.Length;
+            }
+
+            if (txtFieldWidth.Text != string.Empty && txtFieldHeight.Text != string.Empty && txtBlockSize.Text != string.Empty)
+            {
+                var width = int.Parse(txtFieldWidth.Text) * (int.Parse(txtBlockSize.Text) + 2);
+                var height = int.Parse(txtFieldHeight.Text) * (int.Parse(txtBlockSize.Text) + 2);
+                lblResolution.Text = $"Resolution: {width}x{height}";
+            }
+        }
+
+        private void btnLaunch_Click(object sender, EventArgs e)
+        {
             battlefield?.Dispose();
             battlefield = new BattlefieldForm();
             battlefield.Show();
