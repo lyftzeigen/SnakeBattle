@@ -67,5 +67,10 @@ namespace Launcher
             battlefield = new BattlefieldForm();
             battlefield.Show();
         }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            Updater.CheckUpdates();
+        }
     }
 }

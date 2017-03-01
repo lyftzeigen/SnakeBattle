@@ -321,6 +321,7 @@ namespace Launcher
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " SnakeBattle Launcher";
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.grBoxWorldSize.ResumeLayout(false);
             this.grBoxWorldSize.PerformLayout();
             this.grBoxTerrain.ResumeLayout(false);
