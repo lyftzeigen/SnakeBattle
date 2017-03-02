@@ -22,7 +22,7 @@ Version 1.1
 
 ### Интерфейс ISmartSnake
 
-Move enum описывает все возможные движения змейки
+Перечисление **Move** описывает все возможные движения змейки
 ```csharp
 public enum Move
 {
@@ -33,65 +33,75 @@ public enum Move
     Left = 4
 }
 ```
-Свойства позволяют передвигать вашу змейку или менять направление её движения раз в ход. Также, вы можете указать имя и цвет головы.
+
+Класс **Snake** содержит следующую информацию о змейке:
+Свойство *Position* содержит информацию о координатах головы змейки.
+Свойство *Health* содержит информацию о здоровье змейки.
+Свойство *Tail* является массивом, содержащим координаты хвоста змейки.
+```scharp
+public class Snake
+{
+    public Point Position { get; set; }
+    public double Health { get; set; }
+    public List<Point> Tail { get; set; }
+}
+```
+
+Свойства интерфейса **ISmartSnake** позволяют передвигать вашу змейку или менять направление её движения раз в ход. Также, вы можете указать имя и цвет головы.
 ```csharp
-string Name { get; set; }
 Move Direction { get; set; }
 bool Reverse { get; set; }
+string Name { get; set; }
 Color Color { get; set; }
 ```
-Метод **Startup** запускается один раз при подключении ИИ. Переменная *size* содержит размеры поля. 
-В переменной *stones* хранятся координаты статических объектов (в данный момент - камней).
+
+Метод **Startup** запускается один раз при подключении ИИ (плагина). Параметр *size* содержит размеры поля. 
+В параметре *stones* хранятся координаты статических объектов (камней).
 ```csharp
 void Startup(Size size, List<Point> stones);
 ```
 
 Метод **Update** запускается каждый раз при обновлении логики.
-Переменная *position* хранит координаты головы змеи.
-В *heads* содержатся координаты голов всех змей.
-В *tails* содержатся координаты тел всех змей.
-В *food* находятся координаты всех клеток с едой.
+Параметр *snake* хранит информацию о вашей змейке.
+В *enemies* содержится информация о всех остальных змейках.
+В *food* содержатся координаты пищи.
+В *dead* находятся координаты мертвых хвостов змеек.
 ```csharp
-void Update(Point position, List<Point> heads, List<Point> tails, List<Point> food);
+void Update(Snake snake, List<Snake> enemies, List<Point> food, List<Point> dead);
 ```
 
 ### Пример плагина случайного ИИ 
 ```csharp
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using PluginInterface;
-
-namespace BotRandomSnake
+public class RandomSnake : ISmartSnake
 {
-    public class RandomSnake : ISmartSnake
+    public Move Direction { get; set; }
+    public bool Reverse { get; set; }
+    public string Name { get; set; }
+    public Color Color { get; set; }
+
+    private DateTime dt = DateTime.Now;
+    private static Random rnd = new Random();
+
+    public void Startup(Size size, List<Point> stones)
     {
-        public string Name { get; set; } = "RandomSnake";
-        public Color Color { get; set; } = Color.Black;
-        public Move Direction { get; set; }
-        public bool Reverse { get; set; }
+        Name = "RandomSnake";
+        Color = Color.Black;
+    }
 
-        private DateTime dt = DateTime.Now;
-        private static Random rnd = new Random();
+    public void Update(Snake snake, List<Snake> enemies, List<Point> food, List<Point> dead)
+    {
+        // Змейка двигается в случайном направлении
+        Direction = (Move)rnd.Next(1, 5);
 
-        public void Startup(Size size, List<Point> stones)
+        // Змейка разворачивается каждую секунду (1000мс)
+        if ((DateTime.Now - dt).TotalMilliseconds > 1000)
         {
-        }
-
-        public void Update(Point position, List<Point> heads, List<Point> tails, List<Point> food)
-        {
-            // Змейка двигается в случайном направлении
-            Direction = (Move) rnd.Next(1, 5);
-
-            // Змейка разворачивается каждую секунду (1000мс)
-            if ((DateTime.Now - dt).TotalMilliseconds > 1000)
-            {
-                Reverse = true;
-                dt = DateTime.Now;
-            }
+            Reverse = true;
+            dt = DateTime.Now;
         }
     }
 }
+
 ```
 # Скриншоты
 ### Linux
