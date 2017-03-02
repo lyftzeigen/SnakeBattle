@@ -108,10 +108,31 @@ namespace SnakeBattle
         public void GrowSnake(Head head)
         {
             var snakeEnd = GetSnake(head).Last();
-            var newTail = new Tail(snakeEnd.Position) {Color = snakeEnd.Color};
+            var newTail = new Tail(snakeEnd.Position) { Color = snakeEnd.Color };
             snakeEnd.Driven = newTail;
             newTail.Leading = snakeEnd;
             Add(newTail);
+        }
+
+        public void ShrinkSnake(Head head)
+        {
+            var snake = GetSnake(head);
+            var end = snake.Last();
+            var point = end.Position;
+            end.Leading.Driven = null;
+            DeleteObject(end);
+            var dead = new Blood(end.Position);
+            Add(dead);
+        }
+
+        public void KillSnake(Head head)
+        {
+            var snake = GetSnake(head);
+
+            foreach (var tail in snake)
+            {
+                DeleteObject(tail);
+            }
         }
 
         public void MoveObject(WorldObject obj, Point position)
@@ -161,58 +182,87 @@ namespace SnakeBattle
 
         private void UpdateSnakeDirection()
         {
-            var heads = new List<Point>();
-            var tails = new List<Point>();
             var food = new List<Point>();
 
-            foreach (var item in FastTypes[typeof(Head)])
-            {
-                heads.Add(item.Position);
-            }
-
-            foreach (var item in FastTypes[typeof(Tail)])
-            {
-                tails.Add(item.Position);
-            }
-
-            foreach (var item in FastTypes[typeof(Food)])
+            foreach (var item in GetObjects(typeof(Food)))
             {
                 food.Add(item.Position);
             }
 
-            foreach (Head head in GetObjects(typeof(Head)))
+            var dead = new List<Point>();
+
+            foreach (var item in GetObjects(typeof(Blood)))
             {
-                head.Update(head.Position, heads, tails, food);
+                dead.Add(item.Position);
             }
+
+            var heads = GetObjects(typeof(Head)).ToList();
+
+            foreach (Head head in heads)
+            {
+                var snake = new Snake()
+                {
+                    Position = head.Position,
+                    Health = head.Health,
+                    Tail = GetSnake(head).Skip(1).Select(obj => obj.Position).ToList()
+                };
+
+                var enemies = new List<Snake>();
+
+                foreach (Head enemy in heads)
+                {
+                    if (enemy != head)
+                    {
+                        var s = new Snake()
+                        {
+                            Position = enemy.Position,
+                            Health = enemy.Health,
+                            Tail = GetSnake(enemy).Skip(1).Select(obj => obj.Position).ToList()
+                        };
+
+                        enemies.Add(s);
+                    }
+                }
+
+                head.Update(snake, enemies, food, dead);
+            }
+
         }
 
         private void UpdateSnakeMoving()
         {
             foreach (Head head in GetObjects(typeof(Head)).ToArray())
             {
-                var destination = DirectionToPoint(head);
-                var prepositionLeading = head.Position;
-                var prepositionDriven = Point.Empty;
-
-                var find = GetObjects(destination);
-
-                if (find.Count == 0 || find.All(fobj => fobj.Permeable))
+                if (head.PenaltyTurns == 0)
                 {
-                    MoveObject(head, destination);
+                    var destination = DirectionToPoint(head);
+                    var prepositionLeading = head.Position;
+                    var prepositionDriven = Point.Empty;
 
-                    Tail current = head.Driven;
+                    var find = GetObjects(destination);
 
-                    while (current != null)
+                    if (find.Count == 0 || find.All(fobj => fobj.Permeable))
                     {
-                        if (Distansed(current.Position, current.Leading.Position))
-                        {
-                            prepositionDriven = current.Position;
-                            MoveObject(current, prepositionLeading);
-                        }
+                        MoveObject(head, destination);
 
-                        current = current.Driven;
-                        prepositionLeading = prepositionDriven;
+                        Tail current = head.Driven;
+
+                        while (current != null)
+                        {
+                            if (Distansed(current.Position, current.Leading.Position))
+                            {
+                                prepositionDriven = current.Position;
+                                MoveObject(current, prepositionLeading);
+                            }
+
+                            current = current.Driven;
+                            prepositionLeading = prepositionDriven;
+                        }
                     }
+                }
+                else
+                {
+                    head.PenaltyTurns--;
                 }
             }
         }
@@ -237,7 +287,7 @@ namespace SnakeBattle
                         }
                     }
 
-                    head.Direction = Move.Nothing;
+                    head.PenaltyTurns++;
                     head.Reverse = false;
                 }
             }
@@ -247,17 +297,91 @@ namespace SnakeBattle
         {
             var heads = GetObjects(typeof(Head));
 
-            foreach (var head in heads)
+            foreach (Head head in heads)
             {
                 var foods = GetObjects(head.Position).Where(obj => obj.GetType() == typeof(Food));
+                var length = GetSnake(head).Count;
 
                 foreach (var food in foods)
                 {
                     if (head.Position == food.Position)
                     {
                         DeleteObject(food);
-                        GrowSnake(head as Head);
+
+                        if (head.Health < 100)
+                        {
+                            head.Health += 20;
+
+                            if (head.Health > 100)
+                            {
+                                head.Health = 100;
+                            }
+
+                            head.Score += 0.1;
+                        }
+                        else
+                        {
+                            head.FoodCollected++;
+
+                            if (head.FoodCollected >= 10)
+                            {
+                                GrowSnake(head);
+                                head.FoodCollected = 0;
+                            }
+
+                            head.Score += 0.25;
+                        }
+
                         break;
+                    }
+                }
+            }
+        }
+
+        public void UpdateSnakeHunting()
+        {
+            var heads = GetObjects(typeof(Head));
+
+            foreach (Head attacking in heads)
+            {
+                var points = GetAdjacentPoints(attacking.Position);
+
+                foreach (var point in points)
+                {
+                    foreach (Head victim in heads)
+                    {
+                        if (victim.Position == point)
+                        {
+                            var victimLength = GetSnake(victim).Count;
+                            var attackingLength = GetSnake(attacking).Count;
+                            var power = attackingLength / victimLength * 1.0;
+                            victim.Health -= power * 22;
+                            attacking.Score += 0.22 / power + 0.125;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void UpdateSnakeDie()
+        {
+            var heads = GetObjects(typeof(Head));
+
+            foreach (Head head in heads.ToList())
+            {
+                var snake = GetSnake(head);
+
+                if (head.Health <= 0)
+                {
+                    if (snake.Count > 2)
+                    {
+                        ShrinkSnake(head);
+                        head.Health = 100;
+                    }
+                    else
+                    {
+                        ShrinkSnake(head);
+                        KillSnake(head);
                     }
                 }
             }
@@ -279,10 +403,12 @@ namespace SnakeBattle
 
         public void Update()
         {
-            UpdateSnakeDirection();
             UpdateSnakeReverse();
             UpdateSnakeMoving();
             UpdateFoodEating();
+            UpdateSnakeHunting();
+            UpdateSnakeDie();
+            UpdateSnakeDirection();
         }
 
         public void Dispose()

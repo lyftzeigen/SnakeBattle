@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockRenderer.cs" />
+    <Compile Include="Blood.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="Head.cs" />
     <Compile Include="ObjectController.cs" />

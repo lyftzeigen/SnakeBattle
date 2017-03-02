@@ -22,10 +22,10 @@ namespace BotRandomSnake
         {
         }
 
-        public void Update(Point position, List<Point> heads, List<Point> tails, List<Point> food)
+        public void Update(Snake snake, List<Snake> enemies, List<Point> food, List<Point> dead)
         {
             // Змейка двигается в случайном направлении
-            Direction = (Move) rnd.Next(1, 5);
+            Direction = (Move)rnd.Next(1, 5);
 
             // Змейка разворачивается каждую секунду (1000мс)
             if ((DateTime.Now - dt).TotalMilliseconds > 1000)

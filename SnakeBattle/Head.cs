@@ -6,17 +6,24 @@ namespace SnakeBattle
 {
     public class Head : Tail
     {
-        public string Name { get; set; }
-        public Move Direction { get; set; }
-        public bool Reverse { get; set; }
-
         private ISmartSnake plugin;
+
+        public string Name { get; set; }
+        public double Health { get; set; }
+        public double Score { get; set; }
+        public int FoodCollected { get; set; }
+        public int PenaltyTurns { get; set; }
+
+        public bool Reverse { get; set; }
+        public Move Direction { get; set; }
 
         public Head(Point position) : base(position)
         {
-            Color = Color.Brown;
-            Direction = Move.Nothing;
             plugin = null;
+            Name = "Noname";
+            Color = Color.Brown;
+            Health = 100;
+            Direction = Move.Nothing;
         }
 
         public Head(Point position, ISmartSnake brains) : base(position)
@@ -24,6 +31,7 @@ namespace SnakeBattle
             plugin = brains;
             Name = plugin.Name;
             Color = plugin.Color;
+            Health = 100;
             Direction = Move.Nothing;
         }
 
@@ -37,12 +45,12 @@ namespace SnakeBattle
             }
         }
 
-        public void Update(Point position, List<Point> heads, List<Point> tails, List<Point> food)
+        public void Update(Snake snake, List<Snake> enemies, List<Point> food, List<Point> dead)
         {
             if (plugin != null)
             {
                 plugin.Reverse = Reverse;
-                plugin.Update(position, heads, tails, food);
+                plugin.Update(snake, enemies, food, dead);
                 Direction = plugin.Direction;
                 Reverse = plugin.Reverse;
             }

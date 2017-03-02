@@ -12,6 +12,29 @@ namespace PluginInterface
         Left = 4
     }
 
+    public class Snake
+    {
+        public Point Position { get; set; }
+        public double Health { get; set; }
+        public List<Point> Tail { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is Snake))
+            {
+                return false;
+            }
+
+            var snake = obj as Snake;
+            return Position.Equals(snake.Position) && Health.Equals(snake.Health);
+        }
+
+        public override int GetHashCode()
+        {
+            return Position.GetHashCode() ^ Health.GetHashCode();
+        }
+    }
+
     public interface ISmartSnake
     {
         string Name { get; set; }
@@ -20,6 +43,6 @@ namespace PluginInterface
         Color Color { get; set; }
 
         void Startup(Size size, List<Point> stones);
-        void Update(Point position, List<Point> heads, List<Point> tails, List<Point> food);
+        void Update(Snake snake, List<Snake> enemies, List<Point> food, List<Point> dead);
     }
 }
