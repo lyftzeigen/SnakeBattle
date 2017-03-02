@@ -354,7 +354,7 @@ namespace SnakeBattle
                         {
                             var victimLength = GetSnake(victim).Count;
                             var attackingLength = GetSnake(attacking).Count;
-                            var power = attackingLength / victimLength * 1.0;
+                            var power = (attackingLength + 1.0) / (victimLength + 1.0) * 1.0;
                             victim.Health -= power * 22;
                             attacking.Score += 0.22 / power + 0.125;
                         }

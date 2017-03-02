@@ -69,6 +69,12 @@
     <Compile Include="SystemInfoForm.designer.cs">
       <DependentUpon>SystemInfoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SystemScoreForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemScoreForm.Designer.cs">
+      <DependentUpon>SystemScoreForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Updater.cs" />
     <EmbeddedResource Include="BattlefieldForm.resx">
       <DependentUpon>BattlefieldForm.cs</DependentUpon>
@@ -87,6 +93,9 @@
     </Compile>
     <EmbeddedResource Include="SystemInfoForm.resx">
       <DependentUpon>SystemInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemScoreForm.resx">
+      <DependentUpon>SystemScoreForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

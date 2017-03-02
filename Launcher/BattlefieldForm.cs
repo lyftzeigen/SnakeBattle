@@ -9,6 +9,7 @@ namespace Launcher
     {
         private World world;
         private SystemInfoForm systemInfo;
+        private SystemScoreForm systemScore;
         private BlockRenderer renderer;
 
         private Thread updateThread;
@@ -42,6 +43,10 @@ namespace Launcher
             systemInfo?.Dispose();
             systemInfo = new SystemInfoForm(world, renderer);
             systemInfo.Show(this);
+
+            systemScore?.Dispose();
+            systemScore = new SystemScoreForm(world);
+            systemScore.Show(this);
         }
 
         private void DoSync()
