@@ -38,7 +38,7 @@ public enum Move
 Свойство *Position* содержит информацию о координатах головы змейки.
 Свойство *Health* содержит информацию о здоровье змейки.
 Свойство *Tail* является массивом, содержащим координаты хвоста змейки.
-```scharp
+```csharp
 public class Snake
 {
     public Point Position { get; set; }
