@@ -47,7 +47,7 @@ namespace Launcher
 
                                 foreach (var d in sorted)
                                 {
-                                    lblInfo.Text += $"{d.Value[0]} + {d.Value[1]}\n";
+                                    lblInfo.Text += $"{d.Value[0]} + {Math.Round((double)d.Value[1], 3)}\n";
                                 }
                                 
                             }));

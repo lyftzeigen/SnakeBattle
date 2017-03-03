@@ -19,14 +19,18 @@ namespace Launcher
         {
             using (var client = new WebClient())
             {
-                var data = client.DownloadString("https://raw.githubusercontent.com/lyftzeigen/SnakeBattle/master/README.md");
-                var v = data.Split('\n')[1].Split(' ')[1];
-
-                if (version != v)
+                try
                 {
-                    MessageBox.Show("Update available!\n" +
-                        "Please check new version: https://github.com/lyftzeigen/SnakeBattle", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var data = client.DownloadString("https://raw.githubusercontent.com/lyftzeigen/SnakeBattle/master/README.md");
+                    var v = data.Split('\n')[1].Split(' ')[1];
+
+                    if (version != v)
+                    {
+                        MessageBox.Show("Update available!\n" +
+                            "Please check new version: https://github.com/lyftzeigen/SnakeBattle", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
+                catch { }                
             }
         }
     }
