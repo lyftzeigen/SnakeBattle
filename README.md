@@ -1,5 +1,4 @@
-# SnakeBattle
-Version 1.1
+# SnakeBattle v1.1.0
 
 ### Установка и запуск
 1. Клонировать репозиторий

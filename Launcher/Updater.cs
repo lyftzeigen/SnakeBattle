@@ -7,7 +7,7 @@ namespace Launcher
 {
     public static class Updater
     {
-        static readonly string version = "1.1";
+        static readonly string version = "v1.1.0";
 
         public static void CheckUpdates()
         {
@@ -22,7 +22,7 @@ namespace Launcher
                 try
                 {
                     var data = client.DownloadString("https://raw.githubusercontent.com/lyftzeigen/SnakeBattle/master/README.md");
-                    var v = data.Split('\n')[1].Split(' ')[1];
+                    var v = data.Split('\n')[0].Split(' ')[1];
 
                     if (version != v)
                     {
