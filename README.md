@@ -108,3 +108,8 @@ public class RandomSnake : ISmartSnake
 <p align="center">  
   <img src="https://github.com/lyftzeigen/SnakeBattle/raw/master/Screenshots/Linux/Battlefield.png"/>
 </p>
+
+### Windows
+<p align="center">  
+    <img src="https://github.com/lyftzeigen/SnakeBattle/blob/master/Screenshots/Windows/Battlefield.png"/>
+</p>
