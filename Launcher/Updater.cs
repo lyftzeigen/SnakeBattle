@@ -22,7 +22,7 @@ namespace Launcher
                 try
                 {
                     var data = client.DownloadString("https://raw.githubusercontent.com/lyftzeigen/SnakeBattle/master/README.md");
-                    var v = data.Split('\n')[0].Split(' ')[1];
+                    var v = data.Split('\n')[0].Split(' ')[2];
 
                     if (version != v)
                     {
@@ -30,7 +30,7 @@ namespace Launcher
                             "Please check new version: https://github.com/lyftzeigen/SnakeBattle", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                catch { }                
+                catch { }
             }
         }
     }
