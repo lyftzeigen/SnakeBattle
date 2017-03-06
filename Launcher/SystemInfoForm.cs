@@ -12,33 +12,33 @@ namespace Launcher
             InitializeComponent();
 
             new Thread(() =>
-            {
-                try
                 {
                     while (!IsDisposed)
                     {
-                        if (lblInfo.InvokeRequired)
+                        try
                         {
-                            lblInfo.Invoke(new Action(delegate
+                            if (lblInfo.InvokeRequired)
                             {
-                                lblInfo.Text = $"World generating...\n" +
-                                               $"Borders: {world.BorderGenerationTime} ms\n" +
-                                               $"Terrain: {world.TerrainGenerationTime} ms\n" +
-                                               $"Food: {world.FoodGenerationTime} ms\n" +
-                                               $"Plugins: {world.PluginLoadingTime} ms\n" +
-                                               $"\n" +
-                                               $"Render time: {renderer.DrawTime} ms\n" +
-                                               $"Update time: {world.LogicUpdateTime} ms\n";
-                            }));
+                                lblInfo.Invoke(new Action(delegate
+                                {
+                                    lblInfo.Text = $"World generating...\n" +
+                                                   $"Borders: {world.BorderGenerationTime} ms\n" +
+                                                   $"Terrain: {world.TerrainGenerationTime} ms\n" +
+                                                   $"Food: {world.FoodGenerationTime} ms\n" +
+                                                   $"Plugins: {world.PluginLoadingTime} ms\n" +
+                                                   $"\n" +
+                                                   $"Render time: {renderer.DrawTime} ms\n" +
+                                                   $"Update time: {world.LogicUpdateTime} ms\n";
+                                }));
+                            }
+                            Thread.Sleep(100);
                         }
-
-                        Thread.Sleep(100);
+                        catch
+                        {
+                        }
                     }
-                }
-                catch
-                {
-                }
-            }) {IsBackground = true}.Start();
+                })
+                {IsBackground = true}.Start();
         }
     }
 }

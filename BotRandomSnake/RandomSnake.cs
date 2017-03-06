@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PluginInterface;
 
 namespace BotRandomSnake
@@ -20,14 +17,14 @@ namespace BotRandomSnake
 
         public void Startup(Size size, List<Point> stones)
         {
-            Name = "RandomSnake";
-            Color = Color.Black;
+            Name = "BotRandomSnake";
+            Color = Color.Brown;
         }
 
         public void Update(Snake snake, List<Snake> enemies, List<Point> food, List<Point> dead)
         {
             // Змейка двигается в случайном направлении
-            Direction = (Move)rnd.Next(1, 5);
+            Direction = (Move) rnd.Next(1, 5);
 
             // Змейка разворачивается каждую секунду (1000мс)
             if ((DateTime.Now - dt).TotalMilliseconds > 1000)
