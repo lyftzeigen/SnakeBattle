@@ -108,7 +108,7 @@ namespace SnakeBattle
         public void GrowSnake(Head head)
         {
             var snakeEnd = GetSnake(head).Last();
-            var newTail = new Tail(snakeEnd.Position) { Color = snakeEnd.Color };
+            var newTail = new Tail(snakeEnd.Position) {Color = snakeEnd.Color};
             snakeEnd.Driven = newTail;
             newTail.Leading = snakeEnd;
             Add(newTail);
@@ -308,6 +308,8 @@ namespace SnakeBattle
                     {
                         DeleteObject(food);
 
+                        GenerateFood();
+
                         if (head.Health < 100)
                         {
                             head.Health += 20;
@@ -317,7 +319,7 @@ namespace SnakeBattle
                                 head.Health = 100;
                             }
 
-                            head.Score += 0.1;
+                            head.Score += 0.05;
                         }
                         else
                         {
@@ -329,7 +331,7 @@ namespace SnakeBattle
                                 head.FoodCollected = 0;
                             }
 
-                            head.Score += 0.25;
+                            head.Score += 0.1;
                         }
 
                         break;
@@ -350,13 +352,21 @@ namespace SnakeBattle
                 {
                     foreach (Head victim in heads)
                     {
+                        var attackingSnake = GetSnake(attacking);
+                        var victimSnake = GetSnake(victim);
+
                         if (victim.Position == point)
                         {
                             var victimLength = GetSnake(victim).Count;
                             var attackingLength = GetSnake(attacking).Count;
-                            var power = (attackingLength + 1.0) / (victimLength + 1.0) * 1.0;
+                            var power = (attackingLength + 1.0) / (victimLength + 1.0);
                             victim.Health -= power * 22;
                             attacking.Score += 0.22 / power + 0.125;
+
+                            if (attackingSnake.Count > victimSnake.Count)
+                            {
+                                attacking.PenaltyTurns += 1 + attackingSnake.Count - victimSnake.Count;
+                            }
                         }
                     }
                 }
@@ -383,6 +393,21 @@ namespace SnakeBattle
                         ShrinkSnake(head);
                         KillSnake(head);
                     }
+                }
+            }
+        }
+
+        private void GenerateFood()
+        {
+            var rnd = new Random();
+
+            while (GetObjects(typeof(Food)).Count < 5)
+            {
+                var initial = new Point(rnd.Next(1, WorldSize.Width), rnd.Next(1, WorldSize.Height));
+
+                if (GetObjects(initial).All(obj => obj == null))
+                {
+                    Add(new Food(initial));
                 }
             }
         }
