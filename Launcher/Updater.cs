@@ -7,7 +7,7 @@ namespace Launcher
 {
     public static class Updater
     {
-        static readonly string version = "v1.1.0";
+        static readonly string version = "v1.1.1";
 
         public static void CheckUpdates()
         {
