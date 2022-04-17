@@ -34,15 +34,15 @@ namespace Launcher
 
         private void txtFieldWidthOrHeight_OnChange(object sender, EventArgs e)
         {
-            checkIfCorrectValueInField(sender, 25);
+            checkIfCorrectValueInField(sender, 25, 100);
         }
 
         private void txtFieldBlockSize_OnChange(object sender, EventArgs e)
         {
-            checkIfCorrectValueInField(sender, 5);
+            checkIfCorrectValueInField(sender, 5, 12);
         }
 
-        private void checkIfCorrectValueInField(object sender, int minValue)
+        private void checkIfCorrectValueInField(object sender, int minValue, int maxValue)
         {
             if (sender != null)
             {
@@ -52,7 +52,7 @@ namespace Launcher
                 int value = int.Parse(textBox.Text);
                 textBox.Text = value.ToString();
 
-                if (value < minValue)
+                if (value < minValue || value > maxValue)
                 {
                     btnLaunch.Enabled = false;
                     textBox.ForeColor = Color.Red;
@@ -83,20 +83,20 @@ namespace Launcher
         }
         private void checkTxtLength(TextBox textBox)
         {
-            if (textBox.Text.Length == 0)
+            if (textBox.Text.Length <= 0)
             {
                 textBox.Text = "0";
             }
 
-            if (textBox.Text.Length == 1)
+            if (textBox.Text.Length == 1 || textBox.Text.Length == 2 || textBox.Text.Length == 3)
             {
                 textBox.SelectionStart = textBox.Text.Length;
                 textBox.SelectionLength = 0;
             }
 
-            if (textBox.Text.Length > 4)
+            if (textBox.Text.Length > 3)
             {
-                textBox.Text = textBox.Text.Substring(0, 4);
+                textBox.Text = textBox.Text.Substring(0, 3);
             }
         }
 
