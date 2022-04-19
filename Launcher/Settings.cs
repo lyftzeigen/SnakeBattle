@@ -10,19 +10,19 @@
         public static int FieldWidth
         {
             get { return fieldWidth; }
-            set { fieldWidth = value; }
+            set { fieldWidth = value > 100 ? 100 : value;; }
         }
 
         public static int FieldHeight
         {
             get { return fieldHeight; }
-            set { fieldHeight = value; }
+            set { fieldHeight = value > 100 ? 100 : value; }
         }
 
         public static int BlokSize
         {
             get { return blokSize; }
-            set { blokSize = value; }
+            set { blokSize = value > 12 ? 12 : value; }
         }
 
         public static int TerrainDomainNumber { get; set; }
